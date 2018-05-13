@@ -11,7 +11,7 @@ UNDERLINE='\033[4m'
 
 coinGithubLink=https://github.com/airincoin/airin
 coinPort=188808
-coinDaemon=airind
+coinDaemon=./airind
 baseCoinCore=.airincore
 coinConfigFile=airin.conf
 MAX=10
