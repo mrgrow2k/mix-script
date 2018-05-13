@@ -4,7 +4,7 @@ Shell script to install a [Enox Masternode](http://enox.io) on a Linux server ru
 
 ## Installation
 ```
-wget -q https://raw.githubusercontent.com/growbtcprofits/enox_script/master/enox_install.sh
+wget -q https://raw.githubusercontent.com/growbtcprofits/mix-script/master/enox_install.sh
 bash enox_install.sh
 ```
 ***
