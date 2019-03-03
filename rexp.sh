@@ -8,7 +8,7 @@ COIN_CLI='ragnarok-cli'
 COIN_PATH='/usr/local/bin/'
 COIN_TGZ='https://github.com/ragnaproject/Ragnarok/releases/download/3.0.1.0/Ragnarok-3.0.1.0-DAEMON.zip'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-COIN_NAME='ragnarok'
+COIN_NAME='Ragnarok'
 COIN_EXPLORER='https://chain.ragnaproject.io'
 COIN_PORT=8853
 RPC_PORT=8854
@@ -192,10 +192,7 @@ function important_information() {
  echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
  echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
  echo -e "Check Status: ${RED}systemctl status $COIN_NAME.service${NC}"
- echo -e "VPS_IP:PORT ${GREEN}$NODEIP:$COIN_PORT${NC}"
- echo -e "MASTERNODE GENKEY is: ${YELLOW}$COINKEY${NC}"
- echo -e "Check ${RED}$COIN_CLI getblockcount${NC} and compare to ${GREEN}$COIN_EXPLORER${NC}."
- echo -e "Confirm ${GREEN}Collateral${NC} is fully confirmed and start Masternode."
+ echo -e "VPS_IP ${GREEN}$NODEIP${NC}"
  echo -e "Use ${RED}$COIN_CLI help${NC} for help."
  echo -e "${YELLOW}=====================================================================================${NC}"
  if [[ -n $SENTINEL_REPO  ]]; then
