@@ -107,7 +107,6 @@ rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 rpcport=$RPC_PORT
 rpcallowip=127.0.0.1
-port=$COIN_PORT
 txindex=1
 debug=0
 listen=1
