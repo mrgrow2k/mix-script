@@ -8,7 +8,7 @@ bash bihupdate.sh
 wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/rexp.sh
 chmod +x rexp.sh
 ./rexp.sh
-
+```
 # Ragnarok MN
 ```
 wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/ragmn.sh
