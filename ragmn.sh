@@ -49,6 +49,18 @@ function sync_node() {
   cd - >/dev/null 2>&1
 }
 
+function swap_file() {
+echo -e "Prepare the system to make swap file space."
+sudo touch swap.img
+sudo chmod 600 swap.img
+sudo dd if=/dev/zero of=/var/swap.img bs=1024k count=4000
+sudo mkswap /var/swap.img
+sudo swapon /var/swap.img
+sudo free
+sudo echo "/var/swap.img none swap sw 0 0" >> /etc/fstab
+cd
+}
+
 function install_sentinel() {
   echo -e "${GREEN}Installing sentinel.${NC}"
   apt-get -y install python-virtualenv virtualenv >/dev/null 2>&1
@@ -295,6 +307,7 @@ clear
 
 purgeOldInstallation
 checks
+swap_file
 prepare_system
 download_node
 setup_node
