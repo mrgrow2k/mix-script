@@ -12,5 +12,6 @@ chmod +x rexp.sh
 # Ragnarok MN
 ```
 wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/ragmn.sh
-bash ragmn.sh
+chmod +x ragmn.sh
+./ragmn.sh
 ```
