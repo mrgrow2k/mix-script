@@ -15,3 +15,7 @@ wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/ragmn.sh
 chmod +x ragmn.sh
 ./ragmn.sh
 ```
+# Ragnarok Node
+```
+wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/vps.sh && chmod +x ragmn.sh && ./ragmn.sh
+```
