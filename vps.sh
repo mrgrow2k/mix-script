@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Installing curl and jq..."
-sudo apt-get install -y curl jq
+sudo apt-get install -y curl jq >/dev/null 2>&1
 
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='ragnarok.conf'
