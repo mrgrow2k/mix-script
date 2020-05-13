@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Installing curl and jq..."
+sudo apt-get install -y curl jq
+
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='ragnarok.conf'
 CONFIGFOLDER='/root/.ragnarok'
@@ -167,7 +170,7 @@ echo -e "${PURPLE}Adding bitcoin PPA repository"
 apt-add-repository -y ppa:bitcoin/bitcoin >/dev/null 2>&1
 echo -e "Installing required packages, it may take some time to finish.${NC}"
 apt-get update >/dev/null 2>&1
-apt-get install -y curl jq libzmq3-dev  >/dev/null 2>&1
+apt-get install -y libzmq3-dev  >/dev/null 2>&1
 apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" make software-properties-common \
 build-essential libtool autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev libboost-program-options-dev \
 libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git wget libdb4.8-dev bsdmainutils libdb4.8++-dev \
