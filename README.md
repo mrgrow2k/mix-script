@@ -17,5 +17,5 @@ chmod +x ragmn.sh
 ```
 # Ragnarok Node
 ```
-wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/vps.sh && chmod +x ragmn.sh && ./ragmn.sh
+wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/vps.sh && chmod +x vps.sh && ./vps.sh
 ```
