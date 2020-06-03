@@ -1,19 +1,29 @@
 #!/bin/bash
 
+echo "Installing curl and jq..."
+sudo apt-get install -y curl jq >/dev/null 2>&1
+
 TMP_FOLDER=$(mktemp -d)
 CONFIG_FILE='ragnarok.conf'
 CONFIGFOLDER='/root/.ragnarok'
 COIN_DAEMON='ragnarokd'
 COIN_CLI='ragnarok-cli'
 COIN_PATH='/usr/local/bin/'
-COIN_TGZ='https://github.com/ragnaproject/Ragnarok/releases/download/v3.1.4/ragnarok-3.1.4-daemon-win64.zip'
-COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
+
+COIN_TGZ=$(curl -s https://api.github.com/repos/ragnaproject/Ragnarok/releases/latest | jq '.assets')
+BOOTSTRAPURL=$(curl -s https://api.github.com/repos/ragnaproject/bootstraps/releases/latest | jq '.assets')
+
+COIN_TGZ_URL=$(echo "$ASSETS" | jq -r '.[] | select(.name|test("ragnarok-.*static")).browser_download_url')
+COIN_TGZ_VPS=$(echo "$COIN_TGZ_URL" | cut -d "/" -f 9)
+
+BOOTSTRAPURL=$(echo "$BOOTSTRAPURL" | jq -r '.[] | select(.name == "bootstrap.tar.gz").browser_download_url')
+BOOTSTRAPARCHIVE=$(echo "$BOOTSTRAPURL" | cut -d "/" -f 9) 
+
 COIN_NAME='Ragnarok'
-COIN_EXPLORER='https://chain.ragnaproject.io'
+COIN_TICKER='ragna'
+COIN_EXPLORER='https://chain.ragnaproject.io' 
 COIN_PORT=8853
 RPC_PORT=8854
-
-NODEIP=$(curl -s4 icanhazip.com)
 
 BLUE="\033[0;34m"
 YELLOW="\033[0;33m"
@@ -23,7 +33,6 @@ RED='\033[0;31m'
 GREEN="\033[0;32m"
 NC='\033[0m'
 MAG='\e[1;35m'
-
 
 function install_sentinel() {
   echo -e "${GREEN}Installing sentinel.${NC}"
@@ -39,25 +48,23 @@ function install_sentinel() {
 
 function download_node() {
   echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME Daemon${NC}"
-  cd $TMP_FOLDER >/dev/null 2>&1
-  wget -q $COIN_TGZ
+  wget $COIN_TGZ_URL >/dev/null 2>&1
   compile_error
-  unzip $COIN_ZIP >/dev/null 2>&1
+  sudo tar -xzvf $COIN_TGZ_VPS -C $COIN_PATH >/dev/null 2>&1
   compile_error
-  cd linux
-  chmod +x $COIN_DAEMON
-  chmod +x $COIN_CLI
-  cp $COIN_DAEMON $COIN_PATH
-  cp $COIN_DAEMON /root/
-  cp $COIN_CLI $COIN_PATH
-  cp $COIN_CLI /root/
-  cd ~ >/dev/null 2>&1
-  rm -rf $TMP_FOLDER >/dev/null 2>&1
+  rm $COIN_TGZ_URL >/dev/null 2>&1
   clear
 }
 
+function bootstrap() {
+  echo -e "${CYAN}Installing Bootstrap...${NC}"
+  cd $CONFIGFOLDER
+  sudo wget $BOOTSTRAPURL && sudo tar xvzf $BOOTSTRAPARCHIVE && rm $BOOTSTRAPARCHIVE
+}
+
+
 function configure_systemd() {
-  cat << EOF > /etc/systemd/system/$COIN_NAME.service
+  cat << EOF > /etc/systemd/system/$COIN_TICKER.service
 [Unit]
 Description=$COIN_NAME service
 After=network.target
@@ -69,7 +76,7 @@ Group=root
 Type=forking
 #PIDFile=$CONFIGFOLDER/$COIN_NAME.pid
 
-ExecStart=$COIN_PATH$COIN_DAEMON -daemon -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER
+ExecStart=$COIN_PATH$COIN_DAEMON -daemon -staking -txindex -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER
 ExecStop=-$COIN_PATH$COIN_CLI -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER stop
 
 Restart=always
@@ -85,13 +92,13 @@ EOF
 
   systemctl daemon-reload
   sleep 3
-  systemctl start $COIN_NAME.service
-  systemctl enable $COIN_NAME.service >/dev/null 2>&1
+  systemctl start $COIN_TICKER.service
+  systemctl enable $COIN_TICKER.service >/dev/null 2>&1
 
   if [[ -z "$(ps axo cmd:100 | egrep $COIN_DAEMON)" ]]; then
     echo -e "${RED}$COIN_NAME is not running${NC}, please investigate. You should start by running the following commands as root:"
-    echo -e "${GREEN}systemctl start $COIN_NAME.service"
-    echo -e "systemctl status $COIN_NAME.service"
+    echo -e "${GREEN}systemctl start $COIN_TICKER.service"
+    echo -e "systemctl status $COIN_TICKER.service"
     echo -e "less /var/log/syslog${NC}"
     exit 1
   fi
@@ -100,8 +107,8 @@ EOF
 
 function create_config() {
   mkdir $CONFIGFOLDER >/dev/null 2>&1
-  RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1)
-  RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w22 | head -n1)
+  RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w14 | head -n1)
+  RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w25 | head -n1)
   cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
@@ -163,10 +170,10 @@ echo -e "${PURPLE}Adding bitcoin PPA repository"
 apt-add-repository -y ppa:bitcoin/bitcoin >/dev/null 2>&1
 echo -e "Installing required packages, it may take some time to finish.${NC}"
 apt-get update >/dev/null 2>&1
-apt-get install libzmq3-dev -y >/dev/null 2>&1
+apt-get install -y libzmq3-dev  >/dev/null 2>&1
 apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" make software-properties-common \
 build-essential libtool autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev libboost-program-options-dev \
-libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git wget curl libdb4.8-dev bsdmainutils libdb4.8++-dev \
+libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git wget libdb4.8-dev bsdmainutils libdb4.8++-dev \
 libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev  libdb5.3++ unzip libzmq5 >/dev/null 2>&1
 if [ "$?" -gt "0" ];
   then
@@ -175,8 +182,8 @@ if [ "$?" -gt "0" ];
     echo "apt -y install software-properties-common"
     echo "apt-add-repository -y ppa:bitcoin/bitcoin"
     echo "apt-get update"
-    echo "apt install -y make build-essential libtool software-properties-common autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev \
-libboost-program-options-dev libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git curl libdb4.8-dev \
+    echo "apt install -y curl jq make build-essential libtool software-properties-common autoconf libssl-dev libboost-dev libboost-chrono-dev libboost-filesystem-dev \
+libboost-program-options-dev libboost-system-dev libboost-test-dev libboost-thread-dev sudo automake git libdb4.8-dev \
 bsdmainutils libdb4.8++-dev libminiupnpc-dev libgmp3-dev ufw pkg-config libevent-dev libdb5.3++ unzip libzmq5"
  exit 1
 fi
@@ -186,12 +193,10 @@ clear
 function important_information() {
  echo
  echo -e "${CYAN}=======================================================================================${NC}"
- echo -e "$COIN_NAME daemon is up and running listening on port ${GREEN}$COIN_PORT${NC}."
  echo -e "Configuration file is: ${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
  echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
  echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
  echo -e "Check Status: ${RED}systemctl status $COIN_NAME.service${NC}"
- echo -e "VPS_IP ${GREEN}$NODEIP${NC}"
  echo -e "Use ${RED}$COIN_CLI help${NC} for help."
  echo -e "${YELLOW}=====================================================================================${NC}"
  if [[ -n $SENTINEL_REPO  ]]; then
@@ -202,10 +207,8 @@ function important_information() {
 }
 
 function setup_node() {
-  #get_ip
   create_config
-  #create_key
-  #update_config
+  bootstrap
   enable_firewall
   #install_sentinel
   important_information
