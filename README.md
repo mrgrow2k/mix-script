@@ -5,9 +5,7 @@ bash bihupdate.sh
 ```
 # Exp-Script
 ```
-wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/rexp.sh
-chmod +x rexp.sh
-./rexp.sh
+wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/rexp.sh && chmod +x rexp.sh && ./rexp.sh
 ```
 # Ragnarok MN
 ```
