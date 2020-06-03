@@ -9,7 +9,6 @@ CONFIGFOLDER='/root/.ragnarok'
 COIN_DAEMON='ragnarokd'
 COIN_CLI='ragnarok-cli'
 COIN_PATH='/usr/local/bin/'
-COIN_TGZ='https://github.com/ragnaproject/Ragnarok/releases/download/3.0.1.0/Ragnarok-3.0.1.0-DAEMON.zip'
 
 COIN_TGZ=$(curl -s https://api.github.com/repos/ragnaproject/Ragnarok/releases/latest | jq '.assets')
 BOOTSTRAPURL=$(curl -s https://api.github.com/repos/ragnaproject/bootstraps/releases/latest | jq '.assets')
@@ -21,6 +20,7 @@ BOOTSTRAPURL=$(echo "$BOOTSTRAPURL" | jq -r '.[] | select(.name == "bootstrap.ta
 BOOTSTRAPARCHIVE=$(echo "$BOOTSTRAPURL" | cut -d "/" -f 9) 
 
 COIN_NAME='Ragnarok'
+COIN_TICKER='ragna'
 COIN_EXPLORER='https://chain.ragnaproject.io' 
 COIN_PORT=8853
 RPC_PORT=8854
@@ -64,7 +64,7 @@ function bootstrap() {
 
 
 function configure_systemd() {
-  cat << EOF > /etc/systemd/system/$COIN_NAME.service
+  cat << EOF > /etc/systemd/system/$COIN_TICKER.service
 [Unit]
 Description=$COIN_NAME service
 After=network.target
@@ -92,13 +92,13 @@ EOF
 
   systemctl daemon-reload
   sleep 3
-  systemctl start $COIN_NAME.service
-  systemctl enable $COIN_NAME.service >/dev/null 2>&1
+  systemctl start $COIN_TICKER.service
+  systemctl enable $COIN_TICKER.service >/dev/null 2>&1
 
   if [[ -z "$(ps axo cmd:100 | egrep $COIN_DAEMON)" ]]; then
     echo -e "${RED}$COIN_NAME is not running${NC}, please investigate. You should start by running the following commands as root:"
-    echo -e "${GREEN}systemctl start $COIN_NAME.service"
-    echo -e "systemctl status $COIN_NAME.service"
+    echo -e "${GREEN}systemctl start $COIN_TICKER.service"
+    echo -e "systemctl status $COIN_TICKER.service"
     echo -e "less /var/log/syslog${NC}"
     exit 1
   fi
