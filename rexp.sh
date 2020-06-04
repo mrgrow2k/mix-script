@@ -13,7 +13,7 @@ COIN_PATH='/usr/local/bin/'
 COIN_TGZ=$(curl -s https://api.github.com/repos/ragnaproject/Ragnarok/releases/latest | jq '.assets')
 BOOTSTRAPURL=$(curl -s https://api.github.com/repos/ragnaproject/bootstraps/releases/latest | jq '.assets')
 
-COIN_TGZ_URL=$(echo "$ASSETS" | jq -r '.[] | select(.name|test("ragnarok-.*static")).browser_download_url')
+COIN_TGZ_URL=$(echo "$ASSETS" | jq -r '.[] | select(.name|test("ragnarok-.*x86_64-linux-static.tar.gz")).browser_download_url')
 COIN_TGZ_VPS=$(echo "$COIN_TGZ_URL" | cut -d "/" -f 9)
 
 BOOTSTRAPURL=$(echo "$BOOTSTRAPURL" | jq -r '.[] | select(.name == "bootstrap.tar.gz").browser_download_url')
