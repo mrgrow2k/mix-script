@@ -10,10 +10,9 @@ COIN_DAEMON='ragnarokd'
 COIN_CLI='ragnarok-cli'
 COIN_PATH='/usr/local/bin/'
 
-COIN_TGZ=$(curl -s https://api.github.com/repos/ragnaproject/Ragnarok/releases/latest | jq '.assets')
 BOOTSTRAPURL=$(curl -s https://api.github.com/repos/ragnaproject/bootstraps/releases/latest | jq '.assets')
 
-COIN_TGZ_URL=$(echo "$ASSETS" | jq -r '.[] | select(.name|test("ragnarok-.*x86_64-linux-static.tar.gz")).browser_download_url')
+COIN_TGZ_URL=$(curl -s https://api.github.com/repos/ragnaproject/Ragnarok/releases/latest | grep browser_download_url | grep -e "ragnarok-.*x86_64-linux-static.tar.gz" | cut -d '"' -f 4)
 COIN_TGZ_VPS=$(echo "$COIN_TGZ_URL" | cut -d "/" -f 9)
 
 BOOTSTRAPURL=$(echo "$BOOTSTRAPURL" | jq -r '.[] | select(.name == "bootstrap.tar.gz").browser_download_url')
@@ -49,6 +48,7 @@ function install_sentinel() {
 function download_node() {
   echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME Daemon${NC}"
   wget $COIN_TGZ_URL >/dev/null 2>&1
+
   compile_error
   sudo tar -xzvf $COIN_TGZ_VPS -C $COIN_PATH >/dev/null 2>&1
   compile_error
