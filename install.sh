@@ -10,7 +10,7 @@ PURPLE=$'\e[35;01m'
 CYAN=$'\e[36;01m'
 
 echo ""
-echo -e "\n================================================================================\
+echo -e "\n===============================================================\
          \n   ${GRAY} ██████╗ ██╗   ██╗██████╗ ███╗   ██╗ ██████╗ ██████╗ ███████╗   ${NC} \
          \n   ${GRAY} ██╔══██╗██║   ██║██╔══██╗████╗  ██║██╔═══██╗██╔══██╗██╔════╝   ${NC} \
          \n   ${GRAY} ██║  ██║██║   ██║██████╔╝██╔██╗ ██║██║   ██║██║  ██║█████╗     ${NC} \
@@ -18,11 +18,12 @@ echo -e "\n=====================================================================
          \n   ${GRAY} ██████╔╝╚██████╔╝██║     ██║ ╚████║╚██████╔╝██████╔╝███████╗   ${NC} \
          \n   ${GRAY} ╚═════╝  ╚═════╝ ╚═╝     ╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ ╚══════╝   ${NC} \
      \n                                                   ╗ made by ${GREEN}mrgrow2k${NC} ╔\
-     \n====================================================================================\
-     \n                                                                                   "
+     \n===================================================================\
+     \n                                                                    "
 echo ""
-echo "1.  Just Node        - Install single node & bootstrap"
-echo "2.  Dupe Node        - Install dupnode script"
+echo "1.  Ragnarok Node    - Install ragnarok node & bootstrap"
+echo "2.  Worx Node        - Install worx node & bootstrap"
+echo "3.  Dupe Node        - Install dupnode script"
 echo ""
 read -p "Which node do you want to install: " choice
 
@@ -35,23 +36,33 @@ elif [ "$choice" -gt "8" ] || [ "$choice" -le "0" ]; then
 fi
 
 if [ "$choice" -eq "1" ]; then
-  FANCY_NAME='Just Node'
-  SCRIPT_NAME='vps_node'
+  FANCY_NAME='Ragnarok Node'
+  SCRIPT_NAME='ragna_node'
 fi
 if [ "$choice" -eq "2" ]; then
+  FANCY_NAME='Worx Node'
+  SCRIPT_NAME='worx_node'
+fi
+if [ "$choice" -eq "3" ]; then
   FANCY_NAME='Dupe Node'
   SCRIPT_NAME='dupmn_install'
 fi
 
-
-echo ""
-read -p "You are about to install ${RED}$FANCY_NAME${NC}, do you wish to continue? " -n 1 -r
-if [[ ! $next_choice =~ ^[Yy]$ ]]; then
-  echo -e "\n"
-  clear
-  echo "${RED}$FANCY_NAME${NC} Script starting, please wait..."
-  clear
-  sudo wget "https://raw.githubusercontent.com/mrgrow2k/mix-script/master/$SCRIPT_NAME.sh"
-  chmod +x $SCRIPT_NAME.sh
-  sudo ./$SCRIPT_NAME.sh
-fi
+clear
+echo "${RED}$FANCY_NAME${NC} Script starting, please wait..."
+clear
+sudo wget "https://raw.githubusercontent.com/mrgrow2k/mix-script/master/$SCRIPT_NAME.sh"
+chmod +x $SCRIPT_NAME.sh
+sudo ./$SCRIPT_NAME.sh
+  
+# echo ""
+# read -p "You are about to install ${RED}$FANCY_NAME${NC}, do you wish to continue? " -n 1 -r
+# if [[ ! $next_choice =~ ^[Yy]$ ]]; then
+#   echo -e "\n"
+#   clear
+#   echo "${RED}$FANCY_NAME${NC} Script starting, please wait..."
+#   clear
+#   sudo wget "https://raw.githubusercontent.com/mrgrow2k/mix-script/master/$SCRIPT_NAME.sh"
+#   chmod +x $SCRIPT_NAME.sh
+#   sudo ./$SCRIPT_NAME.sh
+# fi
