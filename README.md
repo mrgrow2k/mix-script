@@ -3,9 +3,13 @@
 wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/bihupdate.sh
 bash bihupdate.sh
 ```
-# Exp-Script
+<!-- # Exp-Script
 ```
 wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/rexp.sh && chmod +x rexp.sh && ./rexp.sh
+``` -->
+# Master Install Script
+```
+wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/install.sh && chmod +x install.sh && ./install.sh
 ```
 # Ragnarok MN
 ```
