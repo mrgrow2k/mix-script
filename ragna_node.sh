@@ -58,8 +58,10 @@ function bootstrap() {
   cd $CONFIGFOLDER
   sudo wget $BOOTSTRAPURL >/dev/null 2>&1
   compile_error
+  echo -e "${CYAN}Unzipping Bootstrap Data...${NC}"
   sudo tar xvzf $BOOTSTRAPARCHIVE >/dev/null 2>&1
   rm $BOOTSTRAPARCHIVE
+  echo -e "${CYAN}Successfully Bootstrap $COIN_NAME Chain Datas...${NC}"
 }
 
 

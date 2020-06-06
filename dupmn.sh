@@ -458,7 +458,7 @@ function cmd_install() {
 	$(conf_set_value $new_folder/$COIN_CONFIG "rpcpassword"       $new_pass 1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "rpcport"           $NEW_RPC  1)
 	$(conf_set_value $new_folder/$COIN_CONFIG "listen"            0         1)
-	$(conf_set_value $new_folder/$COIN_CONFIG "masternodeprivkey" $NEW_KEY  1)
+	$(conf_set_value $new_folder/$COIN_CONFIG "#masternodeprivkey" $NEW_KEY  1)
 	[[ ! $(grep "addnode=127.0.0.1" $new_folder/$COIN_CONFIG) ]] && echo "addnode=127.0.0.1" >> $new_folder/$COIN_CONFIG
 
 	$(make_chmod_file /usr/bin/$COIN_CLI-0      "#!/bin/bash\n$EXEC_COIN_CLI \$@")
@@ -477,7 +477,7 @@ function cmd_install() {
 		$COIN_DAEMON-$1 -daemon
 		wallet_cmd loaded $1 30 > /dev/null
 		NEW_KEY=$(try_cmd $(exec_coin cli $1) "createmasternodekey" "masternode genkey")
-		$(conf_set_value $new_folder/$COIN_CONFIG "masternodeprivkey" $NEW_KEY 1)
+		$(conf_set_value $new_folder/$COIN_CONFIG "#masternodeprivkey" $NEW_KEY 1)
 		$(conf_set_value $new_folder/$COIN_CONFIG "masternode"        "1"      1)
 		$COIN_CLI-$1 stop
 		sleep 3

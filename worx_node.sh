@@ -46,7 +46,6 @@ function download_node() {
   echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME Daemon${NC}"
   wget $COIN_TGZ_URL >/dev/null 2>&1
   compile_error
-  cd $COIN_PATH
   sudo unzip $COIN_TGZ_VPS -d $COIN_PATH >/dev/null 2>&1
   compile_error
   rm $COIN_TGZ_URL >/dev/null 2>&1
@@ -58,8 +57,10 @@ function bootstrap() {
   cd $CONFIGFOLDER
   sudo wget $BOOTSTRAPURL >/dev/null 2>&1
   compile_error
+  echo -e "${CYAN}Unzipping Bootstrap Data...${NC}"
   sudo unzip $BOOTSTRAPARCHIVE >/dev/null 2>&1
   rm $BOOTSTRAPARCHIVE
+  echo -e "${CYAN}Successfully Bootstrap $COIN_NAME Chain Datas...${NC}"
 }
 
 
