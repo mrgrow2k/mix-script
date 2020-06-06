@@ -11,6 +11,11 @@ wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/rexp.sh && chm
 ```
 wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/install.sh && chmod +x install.sh && ./install.sh
 ```
+## Install Profile
+```
+wget -q https://raw.githubusercontent.com/mrgrow2k/mix-script/master/profiles/ragna.dmn
+dupmn profadd ragna.dmn ragna
+```
 # Ragnarok MN
 ```
 wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/ragmn.sh
