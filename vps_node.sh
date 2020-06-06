@@ -10,18 +10,14 @@ COIN_DAEMON='ragnarokd'
 COIN_CLI='ragnarok-cli'
 COIN_PATH='/usr/local/bin/'
 
-COIN_TGZ=$(curl -s https://api.github.com/repos/ragnaproject/Ragnarok/releases/latest | jq '.assets')
-BOOTSTRAPURL=$(curl -s https://api.github.com/repos/ragnaproject/bootstraps/releases/latest | jq '.assets')
-
-COIN_TGZ_URL=$(echo "$ASSETS" | jq -r '.[] | select(.name|test("ragnarok-.*static")).browser_download_url')
+COIN_TGZ_URL=$(curl -s https://api.github.com/repos/ragnaproject/Ragnarok/releases/latest | grep browser_download_url | grep -e "ragnarok-.*x86_64-linux-static.tar.gz" | cut -d '"' -f 4)
 COIN_TGZ_VPS=$(echo "$COIN_TGZ_URL" | cut -d "/" -f 9)
 
-BOOTSTRAPURL=$(echo "$BOOTSTRAPURL" | jq -r '.[] | select(.name == "bootstrap.tar.gz").browser_download_url')
-BOOTSTRAPARCHIVE=$(echo "$BOOTSTRAPURL" | cut -d "/" -f 9) 
+BOOTSTRAPURL=$(curl -s https://api.github.com/repos/ragnaproject/bootstraps/releases/latest | grep browser_download_url | grep -e "bootstrap.tar.gz" | cut -d '"' -f 4)
+BOOTSTRAPARCHIVE="bootstrap.tar.gz"
 
 COIN_NAME='Ragnarok'
 COIN_TICKER='ragna'
-COIN_EXPLORER='https://chain.ragnaproject.io' 
 COIN_PORT=8853
 RPC_PORT=8854
 
@@ -49,6 +45,7 @@ function install_sentinel() {
 function download_node() {
   echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME Daemon${NC}"
   wget $COIN_TGZ_URL >/dev/null 2>&1
+
   compile_error
   sudo tar -xzvf $COIN_TGZ_VPS -C $COIN_PATH >/dev/null 2>&1
   compile_error
@@ -57,9 +54,12 @@ function download_node() {
 }
 
 function bootstrap() {
-  echo -e "${CYAN}Installing Bootstrap...${NC}"
+  echo -e "${CYAN}Doandling & Installing Bootstrap...${NC}"
   cd $CONFIGFOLDER
-  sudo wget $BOOTSTRAPURL && sudo tar xvzf $BOOTSTRAPARCHIVE && rm $BOOTSTRAPARCHIVE
+  sudo wget $BOOTSTRAPURL >/dev/null 2>&1
+  compile_error
+  sudo tar xvzf $BOOTSTRAPARCHIVE >/dev/null 2>&1
+  rm $BOOTSTRAPARCHIVE
 }
 
 
@@ -76,7 +76,7 @@ Group=root
 Type=forking
 #PIDFile=$CONFIGFOLDER/$COIN_NAME.pid
 
-ExecStart=$COIN_PATH$COIN_DAEMON -daemon -staking -txindex -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER
+ExecStart=$COIN_PATH$COIN_DAEMON -daemon -txindex -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER
 ExecStop=-$COIN_PATH$COIN_CLI -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER stop
 
 Restart=always
@@ -194,9 +194,9 @@ function important_information() {
  echo
  echo -e "${CYAN}=======================================================================================${NC}"
  echo -e "Configuration file is: ${RED}$CONFIGFOLDER/$CONFIG_FILE${NC}"
- echo -e "Start: ${RED}systemctl start $COIN_NAME.service${NC}"
- echo -e "Stop: ${RED}systemctl stop $COIN_NAME.service${NC}"
- echo -e "Check Status: ${RED}systemctl status $COIN_NAME.service${NC}"
+ echo -e "Start: ${RED}systemctl start $COIN_TICKER.service${NC}"
+ echo -e "Stop: ${RED}systemctl stop $COIN_TICKER.service${NC}"
+ echo -e "Check Status: ${RED}systemctl status $COIN_TICKER.service${NC}"
  echo -e "Use ${RED}$COIN_CLI help${NC} for help."
  echo -e "${YELLOW}=====================================================================================${NC}"
  if [[ -n $SENTINEL_REPO  ]]; then

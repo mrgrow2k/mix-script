@@ -1,0 +1,7 @@
+COIN_NAME="ragnarok"
+COIN_PATH="/usr/local/bin/"
+COIN_DAEMON="ragnarokd"
+COIN_CLI="ragnarok-cli"
+COIN_FOLDER="/root/.ragnarok"
+COIN_CONFIG="ragnarok.conf"
+COIN_SERVICE="ragna.service"
