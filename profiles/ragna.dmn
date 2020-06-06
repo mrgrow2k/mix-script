@@ -1,4 +1,5 @@
 COIN_NAME="ragnarok"
+COIN_TICKER='ragna'
 COIN_PATH="/usr/local/bin/"
 COIN_DAEMON="ragnarokd"
 COIN_CLI="ragnarok-cli"

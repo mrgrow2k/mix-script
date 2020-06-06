@@ -40,7 +40,7 @@ if [ "$choice" -eq "1" ]; then
 fi
 if [ "$choice" -eq "2" ]; then
   FANCY_NAME='Dupe Node'
-  SCRIPT_NAME='dup_install'
+  SCRIPT_NAME='dupmn_install'
 fi
 
 
