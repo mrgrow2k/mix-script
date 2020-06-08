@@ -539,18 +539,14 @@ function cmd_install() {
 	[[ ! $show_ip ]] && show_ip=$(conf_get_value $new_folder/$COIN_CONFIG "externalip"     | cut -d : -f1)
 
 	echo -e "===================================================================================================\
-			\n${BLUE}$COIN_NAME${NC} duplicated masternode ${CYAN}number $1${NC} should be now up and trying to sync with the blockchain.\
-			\nThe duplicated masternode uses the $([[ $show_ip ]] && echo "IP:PORT ${YELLOW}$show_ip:$([[ $mn_port ]] && echo $mn_port || echo ????)${NC}" || echo "same IP and PORT than the original one").\
-			\nRPC port is ${MAGENTA}$NEW_RPC${NC}, this one is used to send commands to the wallet, DON'T put it in 'masternode.conf' (other programs might want to use this port which causes a conflict, but you can change it with ${MAGENTA}dupmn rpcchange $PROFILE_NAME $1 PORT_NUMBER${NC}).\
+			\n${BLUE}$COIN_NAME${NC} duplicated node ${CYAN}number $1${NC} is syncing with the blockchain.\
+			\nRPC port is ${MAGENTA}$NEW_RPC${NC}, you can change it with ${MAGENTA}dupmn rpcchange $PROFILE_NAME $1 PORT_NUMBER${NC}).\
 			\nStart:              ${RED}systemctl start $COIN_NAME-$1.service${NC}\
 			\nStop:               ${RED}systemctl stop $COIN_NAME-$1.service${NC}\
 			\nStart on reboot:    ${RED}systemctl enable $COIN_NAME-$1.service${NC}\
 			\nNo start on reboot: ${RED}systemctl disable $COIN_NAME-$1.service${NC}\
 			\n(Currently configured to start on reboot)\
-			\nDUPLICATED MASTERNODE PRIVATEKEY is: ${GREEN}$NEW_KEY${NC}\
-			\nTo check the masternode status just use: ${GREEN}$COIN_CLI-$1 masternode status${NC} (Wait until the new masternode is synced with the blockchain before trying to start it).\
-			\nNOTE 1: ${GREEN}$COIN_CLI-0${NC} and ${GREEN}$COIN_DAEMON-0${NC} are just a reference to the 'main masternode', not a created one with dupmn.\
-			\nNOTE 2: You can use ${GREEN}$COIN_CLI-all [parameters]${NC} and ${GREEN}$COIN_DAEMON-all [parameters]${NC} to apply the parameters on all masternodes. Example: ${GREEN}$COIN_CLI-all masternode status${NC}\
+			\nTo check the node info just use: ${GREEN}$COIN_CLI-$1 getinfo${NC} or ${GREEN}$COIN_CLI-all getinfo${NC}\
 			\n==================================================================================================="
 
 	if [[ $IP ]]; then
