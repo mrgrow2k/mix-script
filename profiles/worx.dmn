@@ -1,0 +1,8 @@
+COIN_NAME="worx"
+COIN_TICKER='worx'
+COIN_PATH="/usr/local/bin/"
+COIN_DAEMON="worxd"
+COIN_CLI="worx-cli"
+COIN_FOLDER="/root/.worx"
+COIN_CONFIG="worx.conf"
+COIN_SERVICE="worx.service"
