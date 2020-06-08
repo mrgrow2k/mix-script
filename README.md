@@ -14,7 +14,7 @@ wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/install.sh && 
 ## Install Profile
 ```
 wget -q https://raw.githubusercontent.com/mrgrow2k/mix-script/master/profiles/ragna.dmn
-dupnode profadd ragna.dmn ragna
+dupmn profadd ragna.dmn ragna
 ```
 # Ragnarok MN
 ```
