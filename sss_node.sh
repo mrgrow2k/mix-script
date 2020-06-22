@@ -116,7 +116,9 @@ rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 rpcallowip=127.0.0.1
 port=$COIN_PORT
+listen=1
 server=1
+debug=0
 daemon=1
 EOF
 }
@@ -145,7 +147,7 @@ clear
 
 function update_config() {
   cat << EOF >> $CONFIGFOLDER/$CONFIG_FILE
-maxconnections=256
+maxconnections=26
 masternode=1
 externalip=$NODEIP
 masternodeprivkey=$COINKEY
