@@ -148,7 +148,6 @@ maxconnections=256
 masternode=1
 externalip=$NODEIP
 masternodeprivkey=$COINKEY
-addnode=159.65.64.248
 EOF
 }
 
