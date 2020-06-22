@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TMP_FOLDER=$(mktemp -d)
-CONFIG_FILE='sssolutions.conf'
+CONFIG_FILE='sss.conf'
 CONFIGFOLDER='/root/.sssolutions'
 COIN_DAEMON='sssolutionsd'
 COIN_CLI='sssolutions-cli'
@@ -56,6 +56,7 @@ function download_node() {
   unzip $COIN_ZIP >/dev/null 2>&1
   compile_error
   rm -rf $COIN_ZIP
+  chmod +x sssolutions*
   mv sssolutions* $COIN_PATH
   cd ~ >/dev/null 2>&1
   rm -rf $TMP_FOLDER >/dev/null 2>&1
