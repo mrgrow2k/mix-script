@@ -26,3 +26,7 @@ chmod +x ragmn.sh
 ```
 wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/vps.sh && chmod +x vps.sh && ./vps.sh
 ```
+# SSS Node
+```
+wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/sss_node.sh && chmod +x sss_node.sh && ./sss_node.sh
+```
