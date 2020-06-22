@@ -55,9 +55,9 @@ function download_node() {
   compile_error
   unzip $COIN_ZIP >/dev/null 2>&1
   compile_error
-  rm -rf sssolutions*.zip
+  rm -rf $COIN_ZIP
   chmod +x sssolutions*
-  cp sssolutions* $COIN_PATH
+  mv sssolutions* $COIN_PATH
   cd ~ >/dev/null 2>&1
   rm -rf $TMP_FOLDER >/dev/null 2>&1
   clear
