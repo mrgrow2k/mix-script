@@ -44,9 +44,8 @@ function install_sentinel() {
 }
 
 function download_node() {
-  echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME Daemon${NC}"
+  echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME masternode ${NC}"
   wget $COIN_TGZ_URL >/dev/null 2>&1
-
   compile_error
   sudo tar -xzvf $COIN_TGZ_VPS -C $COIN_PATH >/dev/null 2>&1
   compile_error
@@ -213,7 +212,7 @@ fi
 }
 
 function prepare_system() {
-echo -e "Preparing the VPS to setup. ${CYAN}$COIN_NAME${NC} ${RED}Daemon${NC}"
+echo -e "Preparing the VPS to setup. ${CYAN}$COIN_NAME${NC} ${RED}masternode${NC}"
 apt-get update >/dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
@@ -267,6 +266,7 @@ function important_information() {
 function setup_node() {
   get_ip
   create_config
+  create_key
   update_config
   #bootstrap
   enable_firewall
