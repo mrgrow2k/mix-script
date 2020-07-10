@@ -72,8 +72,8 @@ Description=$COIN_NAME service
 After=network.target
 
 [Service]
-User=pi
-Group=pi
+User=root
+Group=root
 
 Type=forking
 #PIDFile=$CONFIGFOLDER/$COIN_NAME.pid
