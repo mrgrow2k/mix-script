@@ -94,6 +94,7 @@ EOF
 
   systemctl daemon-reload
   sleep 3
+  chmod $COIN_NAME.service
   systemctl start $COIN_NAME.service
   systemctl enable $COIN_NAME.service >/dev/null 2>&1
 
