@@ -8,7 +8,7 @@ COIN_CLI='rbx-cli'
 COIN_PATH='/usr/local/bin/'
 COIN_TGZ='https://github.com/mrgrow2k/mix-script/releases/download/3.0.0/rubus-3.0.0.zip'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-COIN_NAME='rubus'
+COIN_NAME='rbx'
 COIN_PORT=6740
 
 NODEIP=$(curl -s4 icanhazip.com)
