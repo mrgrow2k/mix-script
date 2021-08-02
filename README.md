@@ -26,7 +26,7 @@ chmod +x ragmn.sh
 ```
 wget -N https://raw.githubusercontent.com/mrgrow2k/mix-script/master/vps.sh && chmod +x vps.sh && ./vps.sh
 ```
-# SSS Node
+# Rubus Node
 ```
-wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/sss_node.sh && chmod +x sss_node.sh && ./sss_node.sh
+wget https://raw.githubusercontent.com/mrgrow2k/mix-script/master/rbx_node.sh && chmod +x rbx_node.sh && ./rbx_node.sh
 ```

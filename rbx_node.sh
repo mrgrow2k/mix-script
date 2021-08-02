@@ -1,14 +1,14 @@
 #!/bin/bash
 
 TMP_FOLDER=$(mktemp -d)
-CONFIG_FILE='sss.conf'
-CONFIGFOLDER='/root/.sssolutions'
-COIN_DAEMON='sssolutionsd'
-COIN_CLI='sssolutions-cli'
+CONFIG_FILE='rbx.conf'
+CONFIGFOLDER='/root/.rbx'
+COIN_DAEMON='rbxd'
+COIN_CLI='rbx-cli'
 COIN_PATH='/usr/local/bin/'
-COIN_TGZ='https://github.com/mrgrow2k/mix-script/releases/download/sss/sssolutions-1.1.9.2rc2.zip'
+COIN_TGZ='https://github.com/mrgrow2k/mix-script/releases/download/3.0.0/rubus-3.0.0.zip'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
-COIN_NAME='sssolutions'
+COIN_NAME='rubus'
 COIN_PORT=6740
 
 NODEIP=$(curl -s4 icanhazip.com)
@@ -56,8 +56,8 @@ function download_node() {
   unzip $COIN_ZIP >/dev/null 2>&1
   compile_error
   rm -rf $COIN_ZIP
-  chmod +x sssolutions*
-  mv sssolutions* $COIN_PATH
+  chmod +x rbx*
+  mv rbx* $COIN_PATH
   cd ~ >/dev/null 2>&1
   rm -rf $TMP_FOLDER >/dev/null 2>&1
   clear
